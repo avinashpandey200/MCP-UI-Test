@@ -10,8 +10,8 @@ import {
 } from "@modelcontextprotocol/ext-apps";
 import { useEffect, useState } from "preact/hooks";
 import { render } from "preact";
-import { TrashIcon, CloseIcon, ChevronUpIcon, StarIcon } from "@razorpay/blade/components";
-import { BladeProvider } from "@razorpay/blade/components";
+import { TrashIcon, CloseIcon, ChevronUpIcon, StarIcon, BladeProvider } from "@razorpay/blade/components";
+import { razorpayTheme } from "@razorpay/blade/components";
 
 // Blade Design Tokens (Razorpay's design system)
 const BLADE = {
@@ -237,7 +237,7 @@ function ProductStore() {
   if (!app) return <div style={{ padding: "20px" }}>Loading store...</div>;
 
   return (
-    <BladeProvider colorScheme="light">
+    <BladeProvider themeTokens={razorpayTheme} colorScheme="light">
       <ProductCatalog hostContext={hostContext} />
     </BladeProvider>
   );
