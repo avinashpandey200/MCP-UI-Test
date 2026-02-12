@@ -30,6 +30,7 @@ export async function startStreamableHTTPServer(
 
   const app = createMcpExpressApp({ host: "0.0.0.0" });
   app.use(cors());
+  app.use(express.json());
 
   // Serve static files from the public directory
   // In development: ./public, in production (dist): dist/public
@@ -39,6 +40,37 @@ export async function startStreamableHTTPServer(
     : path.join(__dirname, "public");
   app.use("/public", express.static(publicPath));
   console.log(`Serving static files from: ${publicPath}`);
+
+  // Proxy endpoint for Razorpay payment creation
+  app.post("/api/create-payment", async (req: Request, res: Response) => {
+    try {
+      const paymentData = req.body;
+      
+      // Call Razorpay API
+      const response = await fetch('https://api-dark.razorpay.com/v1/payments/create/json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic cnpwX2xpdmVfVW5UWENVRjhUZ0U3Vmg6VHJwRGtEYjdkcHhXMUl3V01hMkNQNE1J'
+        },
+        body: JSON.stringify(paymentData)
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        return res.status(response.status).json(data);
+      }
+
+      res.json(data);
+    } catch (error) {
+      console.error('Payment API error:', error);
+      res.status(500).json({ 
+        error: 'Payment processing failed',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
 
   app.all("/mcp", async (req: Request, res: Response) => {
     const server = createServer();

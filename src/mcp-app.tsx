@@ -241,8 +241,8 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         }
       };
 
-      // Call Razorpay API
-      const response = await fetch('https://api-dark.razorpay.com/v1/payments/create/json', {
+      // Call our proxy API
+      const response = await fetch('https://mcp-ui-test-production.up.railway.app/api/create-payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -251,7 +251,8 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
       });
 
       if (!response.ok) {
-        throw new Error(`Payment API failed: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Payment API failed: ${response.status}`);
       }
 
       const data = await response.json();
