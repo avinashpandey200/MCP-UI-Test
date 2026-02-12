@@ -77,59 +77,72 @@ const BLADE = {
   }
 };
 
-// Hardcoded products - Body Wash Collection
+// Hardcoded products - Tira Lipstick Collection
 const PRODUCTS = [
   {
     id: 1,
-    title: "Exfoliating Body Wash",
-    subtitle: "Fades tan and remove dead skin",
-    vendor: "ChemistAtPlay",
-    price: 1149,
-    comparePrice: 1149,
-    size: "100 ml",
+    title: "Essence Long Lasting Lipstick - 02 Just Perfect",
+    subtitle: "Premium quality lipstick for everyday use",
+    vendor: "Essence",
+    price: 1,
+    comparePrice: 398,
+    size: "3.8g",
     rating: 4.5,
     reviews: 24,
-    gradient: "linear-gradient(135deg, #C8E4F5 0%, #A8C5E3 100%)",
-    category: "Body Care"
+    image: "https://cdn.tiraz5.de/v2/super-fire-62c344/tirabz/wrkr/tiraz5/products/pictures/item/free/original/essence/1034836/0/cuqsTzJrnf-VCZaeBSdNW-1034836_1.jpg",
+    category: "Lipstick"
   },
   {
     id: 2,
-    title: "Exfoliating Body Wash",
-    subtitle: "Fades tan and remove dead skin",
-    vendor: "ChemistAtPlay",
-    price: 1149,
-    comparePrice: 1149,
-    size: "100 ml",
+    title: "Essence Long Lasting Lipstick - 04 Naive",
+    subtitle: "Premium quality lipstick for everyday use",
+    vendor: "Essence",
+    price: 1,
+    comparePrice: 403,
+    size: "3.8g",
     rating: 4.5,
     reviews: 24,
-    gradient: "linear-gradient(135deg, #E8E0A8 0%, #D4C894 100%)",
-    category: "Body Care"
+    image: "https://cdn.tiraz5.de/v2/super-fire-62c344/tirabz/wrkr/tiraz5/products/pictures/item/free/original/essence/1034838/0/2Qbs5OHNl8-NDXFo2aaAN-1034838_1.jpg",
+    category: "Lipstick"
   },
   {
     id: 3,
-    title: "Exfoliating Body Wash",
-    subtitle: "Fades tan and remove dead skin",
-    vendor: "ChemistAtPlay",
-    price: 1149,
-    comparePrice: 1149,
-    size: "100 ml",
+    title: "Lakme 9 To 5 Matte To Glass Liquid Lip Color - Passion Pink",
+    subtitle: "Matte to glass finish liquid lip color",
+    vendor: "Lakme",
+    price: 1,
+    comparePrice: 748,
+    size: "7.6g",
     rating: 4.5,
     reviews: 24,
-    gradient: "linear-gradient(135deg, #F4D4C4 0%, #E8BCA8 100%)",
-    category: "Body Care"
+    image: "https://cdn.tiraz5.de/v2/super-fire-62c344/tirabz/wrkr/tiraz5/products/pictures/item/free/original/lakme/1120648/0/DICqDA3GWt-lPhtFtqmi-1120648_1.jpg",
+    category: "Lipstick"
   },
   {
     id: 4,
-    title: "Exfoliating Body Wash",
-    subtitle: "Fades tan and remove dead skin",
-    vendor: "ChemistAtPlay",
-    price: 1149,
-    comparePrice: 1149,
-    size: "100 ml",
+    title: "Lakme 9 To 5 Matte To Glass Liquid Lip Color - Nut Roast",
+    subtitle: "Matte to glass finish liquid lip color",
+    vendor: "Lakme",
+    price: 1,
+    comparePrice: 796,
+    size: "7.6g",
     rating: 4.5,
     reviews: 24,
-    gradient: "linear-gradient(135deg, #F4C4C8 0%, #E8A8B0 100%)",
-    category: "Body Care"
+    image: "https://cdn.tiraz5.de/v2/super-fire-62c344/tirabz/wrkr/tiraz5/products/pictures/item/free/original/lakme/1120651/0/G5z3-ZF-0q-duIVbnrX2-1120651_1.jpg",
+    category: "Lipstick"
+  },
+  {
+    id: 5,
+    title: "Lakme 9 To 5 Matte To Glass Liquid Lip Color - Beachy Vibe",
+    subtitle: "Matte to glass finish liquid lip color",
+    vendor: "Lakme",
+    price: 1,
+    comparePrice: 789,
+    size: "7.6g",
+    rating: 4.5,
+    reviews: 24,
+    image: "https://cdn.tiraz5.de/v2/super-fire-62c344/tirabz/wrkr/tiraz5/products/pictures/item/free/original/lakme/1120650/0/oRixwqfMKG-8f5YWMKZi-1120650_1.jpg",
+    category: "Lipstick"
   }
 ];
 
@@ -139,7 +152,7 @@ interface CartItem {
   vendor: string;
   price: number;
   quantity: number;
-  gradient: string;
+  image: string;
 }
 
 // Saved cards data
@@ -203,7 +216,7 @@ function ProductStore() {
   }, [hostContext]);
 
   useEffect(() => {
-    const instance = new App({ name: "ChemistAtPlay Body Care", version: "1.0.0" });
+    const instance = new App({ name: "Tira Beauty Store", version: "1.0.0" });
     instance.onerror = console.error;
     instance.onhostcontextchanged = (params) => {
       setHostContext((prev) => ({ ...prev, ...params }));
@@ -257,7 +270,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         vendor: product.vendor,
         price: product.price,
         quantity: 1,
-        gradient: product.gradient
+        image: product.image
       }];
     });
   };
@@ -472,7 +485,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         borderBottom: "1px solid BLADE.colors.border.subtle"
       }}>
         <h1 style={{ margin: 0, fontSize: "20px", fontWeight: "600" }}>
-          {paymentSuccess ? "Payment Confirmed" : showPayment ? "Payment Method" : showCheckout ? "Checkout" : "Body Wash Collection"}
+          {paymentSuccess ? "Payment Confirmed" : showPayment ? "Payment Method" : showCheckout ? "Checkout" : "Tira Beauty Store"}
         </h1>
         <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#666" }}>
           {paymentSuccess 
@@ -954,7 +967,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         <>
       {/* Main Container with Blue Border */}
       <div style={{
-        maxWidth: "480px",
+        maxWidth: "680px",
         margin: "16px auto",
         background: "#F9FAFB",
         borderRadius: "20px",
@@ -962,7 +975,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         padding: "16px",
         boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)"
       }}>
-        {/* Razorpay Trust Badge Section */}
+        {/* Tira Branding and Trust Badge Section */}
         <div style={{
           display: "flex",
           justifyContent: "space-between",
@@ -970,34 +983,20 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
           marginBottom: "16px",
           paddingBottom: "12px"
         }}>
-          {/* Left: Razorpay Trusted Business */}
+          {/* Left: Tira Logo */}
           <div style={{
             display: "flex",
             alignItems: "center",
-            gap: "6px",
-            background: "#FFFFFF",
-            padding: "6px 12px",
-            borderRadius: "20px",
-            border: "1px solid #E5E7EB",
-            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)"
+            gap: "8px"
           }}>
-            <div style={{
-              width: "16px",
-              height: "16px",
-              background: "#10B981",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "10px",
-              color: "white",
-              fontWeight: "700"
-            }}>✓</div>
-            <span style={{
-              fontSize: "11px",
-              fontWeight: "500",
-              color: "#374151"
-            }}>Razorpay Trusted Business</span>
+            <img 
+              src="/public/images/tira_logo.png" 
+              alt="Tira" 
+              style={{
+                height: "32px",
+                width: "auto"
+              }}
+            />
           </div>
 
           {/* Right: Secured by Razorpay */}
@@ -1042,8 +1041,8 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                   style={{
                     background: "white",
                     borderRadius: "16px",
-                    minWidth: "220px",
-                    maxWidth: "220px",
+                    minWidth: "280px",
+                    maxWidth: "280px",
                     flexShrink: 0,
                     scrollSnapAlign: "center",
                     border: isSelected ? "2px solid #9333EA" : "1px solid #E5E7EB",
@@ -1053,75 +1052,25 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                     overflow: "hidden"
                   }}
                 >
-                  {/* Product Image Area with Gradient */}
+                  {/* Product Image Area */}
                   <div style={{
-                    background: product.gradient,
-                    padding: "32px 24px",
+                    background: "#FFFFFF",
+                    padding: "20px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     position: "relative",
-                    minHeight: "180px"
+                    minHeight: "200px"
                   }}>
-                    {/* Placeholder for body wash bottle - using simple SVG representation */}
-                    <div style={{
-                      width: "80px",
-                      height: "140px",
-                      background: "rgba(255, 255, 255, 0.95)",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                      position: "relative",
-                      display: "flex",
-                      flexDirection: "column",
-                      overflow: "hidden"
-                    }}>
-                      {/* Bottle Cap */}
-                      <div style={{
-                        width: "40px",
-                        height: "20px",
-                        background: product.id === 1 ? "#4F90CD" : product.id === 2 ? "#D4A83A" : product.id === 3 ? "#E89460" : "#E86A78",
-                        margin: "0 auto",
-                        borderRadius: "4px 4px 0 0"
-                      }}></div>
-                      {/* Label */}
-                      <div style={{
-                        flex: 1,
-                        background: "white",
-                        margin: "8px",
-                        borderRadius: "4px",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "4px"
-                      }}>
-                        <div style={{
-                          fontSize: "8px",
-                          fontWeight: "600",
-                          textAlign: "center",
-                          color: "#374151",
-                          marginBottom: "2px"
-                        }}>ChemistAtPlay</div>
-                        <div style={{
-                          width: "90%",
-                          height: "16px",
-                          background: product.id === 1 ? "#4F90CD" : product.id === 2 ? "#D4A83A" : product.id === 3 ? "#E89460" : "#E86A78",
-                          borderRadius: "2px",
-                          fontSize: "6px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "white",
-                          fontWeight: "600",
-                          marginBottom: "2px"
-                        }}>BODY WASH</div>
-                        <div style={{
-                          fontSize: "5px",
-                          color: "#6B7280",
-                          textAlign: "center"
-                        }}>Exfoliating Formula</div>
-                      </div>
-                    </div>
+                    <img 
+                      src={product.image} 
+                      alt={product.title}
+                      style={{
+                        width: "100%",
+                        height: "180px",
+                        objectFit: "contain"
+                      }}
+                    />
                   </div>
 
                   {/* Product Details */}
@@ -1155,7 +1104,13 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                       margin: "0 0 4px 0",
                       fontSize: "15px",
                       fontWeight: "600",
-                      color: "#1F2937"
+                      color: "#1F2937",
+                      lineHeight: "1.4",
+                      height: "42px",
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical"
                     }}>
                       {product.title}
                     </h3>
@@ -1349,10 +1304,20 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                       width: "40px",
                       height: "40px",
                       borderRadius: "8px",
-                      background: item.gradient,
-                      border: "1px solid #E5E7EB"
+                      border: "1px solid #E5E7EB",
+                      overflow: "hidden"
                     }}
-                  ></div>
+                  >
+                    <img 
+                      src={item.image}
+                      alt=""
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover"
+                      }}
+                    />
+                  </div>
                 ))}
               </div>
 
@@ -1418,15 +1383,19 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
               marginBottom: "12px",
               border: "1px solid BLADE.colors.border.subtle"
             }}>
-              <div
+              <img
+                src={item.image}
+                alt={item.title}
                 style={{
                   width: "80px",
                   height: "80px",
+                  objectFit: "contain",
                   borderRadius: "6px",
                   flexShrink: 0,
-                  background: item.gradient
+                  background: "white",
+                  border: "1px solid #E5E7EB"
                 }}
-              ></div>
+              />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{
                   fontSize: "10px",
@@ -1635,7 +1604,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
             </button>
           </div>
         )}
-        <p style={{ margin: 0, color: "#a3a3a3", fontSize: "11px" }}>ChemistAtPlay Demo - Powered by Claude MCP</p>
+        <p style={{ margin: 0, color: "#a3a3a3", fontSize: "11px" }}>Tira Beauty Store Demo - Powered by Claude MCP</p>
       </footer>
 
       {/* Notification Toast */}
