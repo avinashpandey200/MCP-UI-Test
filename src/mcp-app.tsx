@@ -103,7 +103,7 @@ const SAVED_CARDS = {
         "entity": "card",
         "name": "",
         "last4": "4492",
-        "network": "MasterCard",
+        "network": "Mastercard",
         "type": "debit",
         "issuer": "UTIB",
         "sub_type": "consumer",
@@ -469,15 +469,26 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
               gap: "6px"
             }}>
               Powered by 
-              <img 
-                src="https://mcp-ui-test-production.up.railway.app/public/images/razorapyLogo.svg"
-                alt="Razorpay"
-                style={{
-                  height: "14px",
-                  width: "auto",
-                  marginLeft: "2px"
-                }}
-              />
+              <span style={{
+                background: "white",
+                borderRadius: "50%",
+                width: "24px",
+                height: "24px",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "5px",
+                boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)"
+              }}>
+                <img 
+                  src="https://mcp-ui-test-production.up.railway.app/public/images/razorapyLogo.svg"
+                  alt="Razorpay"
+                  style={{
+                    height: "14px",
+                    width: "auto"
+                  }}
+                />
+              </span>
             </p>
 
             {/* Payment Details */}
@@ -854,14 +865,26 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
               "Processing..."
             ) : (
               <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
-                <img 
-                  src="https://mcp-ui-test-production.up.railway.app/public/images/razorapyLogo.svg"
-                  alt="Razorpay"
-                  style={{
-                    height: "16px",
-                    width: "auto"
-                  }}
-                />
+                <span style={{
+                  background: "white",
+                  borderRadius: "50%",
+                  width: "28px",
+                  height: "28px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "6px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+                }}>
+                  <img 
+                    src="https://mcp-ui-test-production.up.railway.app/public/images/razorapyLogo.svg"
+                    alt="Razorpay"
+                    style={{
+                      height: "16px",
+                      width: "auto"
+                    }}
+                  />
+                </span>
                 {`Pay ₹${getTotalPrice()}`}
               </span>
             )}
@@ -1547,14 +1570,26 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
               e.currentTarget.style.background = "#0D66FF";
             }}
           >
-            <img 
-              src="https://mcp-ui-test-production.up.railway.app/public/images/razorapyLogo.svg"
-              alt="Razorpay"
-              style={{
-                height: "16px",
-                width: "auto"
-              }}
-            />
+            <span style={{
+              background: "white",
+              borderRadius: "50%",
+              width: "28px",
+              height: "28px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "6px",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+            }}>
+              <img 
+                src="https://mcp-ui-test-production.up.railway.app/public/images/razorapyLogo.svg"
+                alt="Razorpay"
+                style={{
+                  height: "16px",
+                  width: "auto"
+                }}
+              />
+            </span>
             Pay ₹{getTotalPrice()}
           </button>
         </div>
