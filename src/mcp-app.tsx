@@ -169,6 +169,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
   const [notification, setNotification] = useState<{message: string; type: 'success' | 'error'} | null>(null);
   const [isPollingPayment, setIsPollingPayment] = useState(false);
   const [pollingPaymentId, setPollingPaymentId] = useState<string | null>(null);
+  const [authUrl, setAuthUrl] = useState<string | null>(null);
 
   const calculateDiscount = (price: number, comparePrice: number) => {
     return Math.round(((comparePrice - price) / comparePrice) * 100);
@@ -326,9 +327,9 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
       const redirectAction = data.next?.find((action: any) => action.action === 'redirect');
       
       if (redirectAction && redirectAction.url) {
-        // Open authentication URL in new tab
-        window.open(redirectAction.url, '_blank');
-        showNotification('Opening payment authentication in new tab...', 'success');
+        // Store auth URL and show it to user
+        setAuthUrl(redirectAction.url);
+        showNotification('Please complete authentication in the link below', 'success');
         
         // Start polling for payment status
         setIsPollingPayment(true);
@@ -384,6 +385,11 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
             transform: translateX(-50%) translateY(0);
           }
         }
+        /* Spinner animation */
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
       `}</style>
       <div
         style={{
@@ -416,7 +422,93 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
       </header>
 
       {showPayment ? (
-        // Payment Method Selection View
+        isPollingPayment && authUrl ? (
+          // Polling / Authentication View
+          <div style={{
+            padding: "40px 16px",
+            maxWidth: "600px",
+            margin: "0 auto",
+            textAlign: "center"
+          }}>
+            {/* Loading Spinner */}
+            <div style={{
+              width: "60px",
+              height: "60px",
+              border: "4px solid #f5f5f5",
+              borderTop: "4px solid #262626",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+              margin: "0 auto 24px"
+            }}></div>
+
+            <h2 style={{ 
+              fontSize: "18px", 
+              fontWeight: "600", 
+              color: "#262626", 
+              marginBottom: "12px" 
+            }}>
+              Waiting for Payment Confirmation
+            </h2>
+
+            <p style={{ 
+              fontSize: "14px", 
+              color: "#737373", 
+              marginBottom: "24px",
+              lineHeight: "1.5"
+            }}>
+              Please complete the authentication using the link below. We'll automatically detect when your payment is successful.
+            </p>
+
+            {/* Payment ID */}
+            <div style={{
+              background: "#fafafa",
+              border: "1px solid #e5e5e5",
+              borderRadius: "8px",
+              padding: "12px",
+              marginBottom: "24px",
+              fontSize: "12px",
+              color: "#737373",
+              fontFamily: "monospace"
+            }}>
+              Payment ID: {pollingPaymentId}
+            </div>
+
+            {/* Authentication Link Button */}
+            <a
+              href={authUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-block",
+                background: "#262626",
+                color: "white",
+                padding: "14px 32px",
+                borderRadius: "8px",
+                fontSize: "15px",
+                fontWeight: "600",
+                textDecoration: "none",
+                transition: "background 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#171717";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#262626";
+              }}
+            >
+              Complete Authentication →
+            </a>
+
+            <p style={{ 
+              fontSize: "12px", 
+              color: "#a3a3a3", 
+              marginTop: "24px"
+            }}>
+              The page will update automatically once payment is confirmed
+            </p>
+          </div>
+        ) : (
+          // Payment Method Selection View
         <div style={{
           padding: "20px 16px",
           maxWidth: "600px",
@@ -591,6 +683,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
             {isProcessingPayment ? "Processing..." : `Pay ₹${getTotalPrice()}`}
           </button>
         </div>
+        )
       ) : !showCheckout ? (
         // Products View
         <>
