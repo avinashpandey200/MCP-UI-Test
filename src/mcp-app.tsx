@@ -139,7 +139,6 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
       `}</style>
       <div
         style={{
-          minHeight: "100vh",
           background: "transparent",
           paddingTop: hostContext?.safeAreaInsets?.top,
           paddingRight: hostContext?.safeAreaInsets?.right,
