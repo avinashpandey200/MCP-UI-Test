@@ -326,18 +326,9 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
       const redirectAction = data.next?.find((action: any) => action.action === 'redirect');
       
       if (redirectAction && redirectAction.url) {
-        // Store auth URL and copy to clipboard
+        // Store auth URL to display to user
         setAuthUrl(redirectAction.url);
-        
-        // Copy URL to clipboard
-        navigator.clipboard.writeText(redirectAction.url)
-          .then(() => {
-            showNotification('Authentication URL copied to clipboard!', 'success');
-          })
-          .catch((err) => {
-            console.error('Failed to copy:', err);
-            showNotification('Please complete authentication', 'success');
-          });
+        showNotification('Please copy the authentication URL below', 'success');
         
         // Start polling for payment status
         setIsPollingPayment(true);
@@ -615,11 +606,56 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
             <p style={{ 
               fontSize: "14px", 
               color: "#737373", 
-              marginBottom: "32px",
+              marginBottom: "24px",
               lineHeight: "1.5"
             }}>
-              The authentication URL has been copied to your clipboard. Please open it in a new browser tab to complete the payment.
+              Click the URL below to select it, then copy and paste it into a new browser tab.
             </p>
+
+            {/* Authentication URL - Click to Select */}
+            <div
+              onClick={(e) => {
+                const selection = window.getSelection();
+                const range = document.createRange();
+                range.selectNodeContents(e.currentTarget.querySelector('div') as Node);
+                selection?.removeAllRanges();
+                selection?.addRange(range);
+              }}
+              style={{
+                background: "#fafafa",
+                border: "2px solid #262626",
+                borderRadius: "8px",
+                padding: "16px",
+                marginBottom: "24px",
+                cursor: "pointer",
+                transition: "background 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#f0f0f0";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#fafafa";
+              }}
+            >
+              <div style={{
+                fontSize: "11px",
+                color: "#737373",
+                marginBottom: "6px",
+                fontWeight: "500"
+              }}>
+                👆 Click here to select URL:
+              </div>
+              <div style={{
+                fontSize: "12px",
+                fontFamily: "monospace",
+                color: "#262626",
+                wordBreak: "break-all",
+                lineHeight: "1.6",
+                userSelect: "all"
+              }}>
+                {authUrl}
+              </div>
+            </div>
 
             {/* Instructions Box */}
             <div style={{
@@ -645,44 +681,14 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                 color: "#9a3412",
                 lineHeight: "1.8"
               }}>
-                <li>Open a new browser tab</li>
-                <li>Paste the URL (Ctrl+V or Cmd+V)</li>
-                <li>Press Enter</li>
-                <li>Complete the OTP or 3D Secure verification</li>
-                <li>Return here - we'll detect when payment succeeds</li>
+                <li><strong>Click the box above</strong> to select the URL</li>
+                <li><strong>Copy</strong> it (Ctrl+C or Cmd+C)</li>
+                <li><strong>Open</strong> a new browser tab</li>
+                <li><strong>Paste</strong> the URL and press Enter</li>
+                <li><strong>Complete</strong> the OTP or 3D Secure verification</li>
+                <li><strong>Return here</strong> - we'll automatically detect success!</li>
               </ol>
             </div>
-
-            {/* Retry Copy Button */}
-            <button
-              style={{
-                background: "#e5e5e5",
-                color: "#262626",
-                border: "none",
-                padding: "10px 20px",
-                borderRadius: "6px",
-                fontSize: "13px",
-                fontWeight: "500",
-                cursor: "pointer",
-                transition: "background 0.2s ease",
-                marginBottom: "16px"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#d4d4d4";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#e5e5e5";
-              }}
-              onClick={() => {
-                if (authUrl) {
-                  navigator.clipboard.writeText(authUrl)
-                    .then(() => showNotification('URL copied again!', 'success'))
-                    .catch(() => showNotification('Failed to copy URL', 'error'));
-                }
-              }}
-            >
-              Copy URL Again
-            </button>
 
             <p style={{ 
               fontSize: "12px", 
