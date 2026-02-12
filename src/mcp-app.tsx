@@ -170,6 +170,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
   const [isPollingPayment, setIsPollingPayment] = useState(false);
   const [pollingPaymentId, setPollingPaymentId] = useState<string | null>(null);
   const [authUrl, setAuthUrl] = useState<string | null>(null);
+  const [paymentSuccess, setPaymentSuccess] = useState<any | null>(null);
 
   const calculateDiscount = (price: number, comparePrice: number) => {
     return Math.round(((comparePrice - price) / comparePrice) * 100);
@@ -243,11 +244,9 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
           // Payment successful
           setIsPollingPayment(false);
           setPollingPaymentId(null);
+          setAuthUrl(null);
+          setPaymentSuccess(data);
           showNotification(`Payment successful! Amount: ₹${data.amount / 100}`, 'success');
-          setCart([]);
-          setShowPayment(false);
-          setShowCheckout(false);
-          setSelectedCard(null);
           return;
         } else if (data.status === 'failed') {
           // Payment failed
@@ -408,21 +407,175 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         borderBottom: "1px solid #e5e5e5"
       }}>
         <h1 style={{ margin: 0, fontSize: "20px", fontWeight: "600" }}>
-          {showPayment ? "Payment Method" : showCheckout ? "Checkout" : "Tira Beauty Store"}
+          {paymentSuccess ? "Payment Confirmed" : showPayment ? "Payment Method" : showCheckout ? "Checkout" : "Tira Beauty Store"}
         </h1>
         <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#666" }}>
-          {isPollingPayment 
-            ? `Waiting for payment confirmation... (${pollingPaymentId})` 
-            : showPayment 
-              ? "Select a saved card to complete payment" 
-              : showCheckout 
-                ? `Review your ${getTotalItems()} items` 
-                : "Scroll to browse products →"}
+          {paymentSuccess 
+            ? "Your order has been successfully processed"
+            : isPollingPayment 
+              ? `Waiting for payment confirmation... (${pollingPaymentId})` 
+              : showPayment 
+                ? "Select a saved card to complete payment" 
+                : showCheckout 
+                  ? `Review your ${getTotalItems()} items` 
+                  : "Scroll to browse products →"}
         </p>
       </header>
 
       {showPayment ? (
-        isPollingPayment && authUrl ? (
+        paymentSuccess ? (
+          // Payment Success View
+          <div style={{
+            padding: "40px 16px",
+            maxWidth: "600px",
+            margin: "0 auto"
+          }}>
+            {/* Success Icon */}
+            <div style={{
+              width: "80px",
+              height: "80px",
+              background: "#16a34a",
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 24px",
+              fontSize: "40px",
+              color: "white"
+            }}>
+              ✓
+            </div>
+
+            <h2 style={{
+              fontSize: "24px",
+              fontWeight: "700",
+              color: "#262626",
+              textAlign: "center",
+              marginBottom: "12px"
+            }}>
+              Payment Successful!
+            </h2>
+
+            <p style={{
+              fontSize: "14px",
+              color: "#737373",
+              textAlign: "center",
+              marginBottom: "32px"
+            }}>
+              Your payment has been processed successfully
+            </p>
+
+            {/* Payment Details */}
+            <div style={{
+              background: "#fafafa",
+              border: "1px solid #e5e5e5",
+              borderRadius: "12px",
+              padding: "20px",
+              marginBottom: "24px"
+            }}>
+              <h3 style={{
+                fontSize: "14px",
+                fontWeight: "600",
+                color: "#262626",
+                marginBottom: "16px"
+              }}>
+                Payment Details
+              </h3>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "13px", color: "#737373" }}>Amount Paid</span>
+                  <span style={{ fontSize: "16px", fontWeight: "600", color: "#16a34a" }}>
+                    ₹{paymentSuccess.amount / 100}
+                  </span>
+                </div>
+
+                <div style={{ height: "1px", background: "#e5e5e5" }}></div>
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "13px", color: "#737373" }}>Payment ID</span>
+                  <span style={{ fontSize: "12px", fontFamily: "monospace", color: "#262626" }}>
+                    {paymentSuccess.id}
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "13px", color: "#737373" }}>Status</span>
+                  <span style={{
+                    fontSize: "12px",
+                    fontWeight: "600",
+                    color: "#16a34a",
+                    textTransform: "uppercase"
+                  }}>
+                    {paymentSuccess.status}
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "13px", color: "#737373" }}>Payment Method</span>
+                  <span style={{ fontSize: "13px", color: "#262626" }}>
+                    {paymentSuccess.card?.network} •••• {paymentSuccess.card?.last4}
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "13px", color: "#737373" }}>Card Type</span>
+                  <span style={{ fontSize: "13px", color: "#262626", textTransform: "capitalize" }}>
+                    {paymentSuccess.card?.type}
+                  </span>
+                </div>
+
+                {paymentSuccess.acquirer_data?.auth_code && (
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: "13px", color: "#737373" }}>Auth Code</span>
+                    <span style={{ fontSize: "12px", fontFamily: "monospace", color: "#262626" }}>
+                      {paymentSuccess.acquirer_data.auth_code}
+                    </span>
+                  </div>
+                )}
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontSize: "13px", color: "#737373" }}>Date</span>
+                  <span style={{ fontSize: "13px", color: "#262626" }}>
+                    {new Date(paymentSuccess.created_at * 1000).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <button
+              style={{
+                width: "100%",
+                background: "#262626",
+                color: "white",
+                border: "none",
+                padding: "14px",
+                borderRadius: "8px",
+                fontSize: "15px",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "background 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#171717";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#262626";
+              }}
+              onClick={() => {
+                // Reset everything and go back to products
+                setPaymentSuccess(null);
+                setCart([]);
+                setShowPayment(false);
+                setShowCheckout(false);
+                setSelectedCard(null);
+              }}
+            >
+              Back to Products
+            </button>
+          </div>
+        ) : isPollingPayment && authUrl ? (
           // Polling / Authentication View
           <div style={{
             padding: "40px 16px",
