@@ -167,6 +167,8 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [notification, setNotification] = useState<{message: string; type: 'success' | 'error'} | null>(null);
+  const [isPollingPayment, setIsPollingPayment] = useState(false);
+  const [pollingPaymentId, setPollingPaymentId] = useState<string | null>(null);
 
   const calculateDiscount = (price: number, comparePrice: number) => {
     return Math.round(((comparePrice - price) / comparePrice) * 100);
@@ -222,6 +224,63 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
     setTimeout(() => setNotification(null), 5000);
   };
 
+  const pollPaymentStatus = async (paymentId: string) => {
+    let attempts = 0;
+    const maxAttempts = 60; // Poll for 2 minutes (60 * 2 seconds)
+    
+    const poll = async () => {
+      try {
+        const response = await fetch(`https://mcp-ui-test-production.up.railway.app/api/payment-status/${paymentId}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to check payment status');
+        }
+
+        const data = await response.json();
+        
+        if (data.status === 'authorized' || data.status === 'captured') {
+          // Payment successful
+          setIsPollingPayment(false);
+          setPollingPaymentId(null);
+          showNotification(`Payment successful! Amount: ₹${data.amount / 100}`, 'success');
+          setCart([]);
+          setShowPayment(false);
+          setShowCheckout(false);
+          setSelectedCard(null);
+          return;
+        } else if (data.status === 'failed') {
+          // Payment failed
+          setIsPollingPayment(false);
+          setPollingPaymentId(null);
+          showNotification('Payment failed. Please try again.', 'error');
+          return;
+        }
+        
+        // Continue polling if status is still processing
+        attempts++;
+        if (attempts < maxAttempts) {
+          setTimeout(poll, 2000); // Poll every 2 seconds
+        } else {
+          setIsPollingPayment(false);
+          setPollingPaymentId(null);
+          showNotification('Payment status check timed out. Please verify manually.', 'error');
+        }
+      } catch (error) {
+        console.error('Payment status polling error:', error);
+        attempts++;
+        if (attempts < maxAttempts) {
+          setTimeout(poll, 2000); // Retry on error
+        } else {
+          setIsPollingPayment(false);
+          setPollingPaymentId(null);
+          showNotification('Failed to check payment status.', 'error');
+        }
+      }
+    };
+    
+    poll();
+  };
+
   const handlePayment = async () => {
     if (!selectedCard) return;
 
@@ -270,13 +329,11 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         // Open authentication URL in new tab
         window.open(redirectAction.url, '_blank');
         showNotification('Opening payment authentication in new tab...', 'success');
-        // Clear cart after redirect
-        setTimeout(() => {
-          setCart([]);
-          setShowPayment(false);
-          setShowCheckout(false);
-          setSelectedCard(null);
-        }, 2000);
+        
+        // Start polling for payment status
+        setIsPollingPayment(true);
+        setPollingPaymentId(data.razorpay_payment_id);
+        pollPaymentStatus(data.razorpay_payment_id);
       } else {
         // Payment successful without redirect
         showNotification(`Payment successful! Payment ID: ${data.razorpay_payment_id}`, 'success');
@@ -348,7 +405,13 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
           {showPayment ? "Payment Method" : showCheckout ? "Checkout" : "Tira Beauty Store"}
         </h1>
         <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#666" }}>
-          {showPayment ? "Select a saved card to complete payment" : showCheckout ? `Review your ${getTotalItems()} items` : "Scroll to browse products →"}
+          {isPollingPayment 
+            ? `Waiting for payment confirmation... (${pollingPaymentId})` 
+            : showPayment 
+              ? "Select a saved card to complete payment" 
+              : showCheckout 
+                ? `Review your ${getTotalItems()} items` 
+                : "Scroll to browse products →"}
         </p>
       </header>
 

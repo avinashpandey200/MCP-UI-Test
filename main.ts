@@ -72,6 +72,36 @@ export async function startStreamableHTTPServer(
     }
   });
 
+  // Proxy endpoint for checking payment status
+  app.get("/api/payment-status/:paymentId", async (req: Request, res: Response) => {
+    try {
+      const { paymentId } = req.params;
+      
+      // Call Razorpay payment status API
+      const response = await fetch(`https://api.razorpay.com/v1/payments/${paymentId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic cnpwX2xpdmVfVW5UWENVRjhUZ0U3Vmg6VHJwRGtEYjdkcHhXMUl3V01hMkNQNE1J'
+        }
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        return res.status(response.status).json(data);
+      }
+
+      res.json(data);
+    } catch (error) {
+      console.error('Payment status API error:', error);
+      res.status(500).json({ 
+        error: 'Payment status check failed',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   app.all("/mcp", async (req: Request, res: Response) => {
     const server = createServer();
     const transport = new StreamableHTTPServerTransport({
