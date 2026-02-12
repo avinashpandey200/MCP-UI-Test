@@ -1604,7 +1604,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
             </button>
           </div>
         )}
-        <p style={{ margin: 0, color: "#a3a3a3", fontSize: "11px" }}>Tira Beauty Store Demo - Powered by Claude MCP</p>
+        <p style={{ margin: 0, color: "#a3a3a3", fontSize: "11px" }}>Tira Beauty Store Demo - Powered by Razorpay MCP</p>
       </footer>
 
       {/* Notification Toast */}
