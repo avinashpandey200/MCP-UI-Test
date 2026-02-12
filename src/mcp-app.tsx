@@ -10,6 +10,8 @@ import {
 } from "@modelcontextprotocol/ext-apps";
 import { useEffect, useState } from "preact/hooks";
 import { render } from "preact";
+import { TrashIcon, CloseIcon, ChevronUpIcon, StarIcon } from "@razorpay/blade/components";
+import { bladeTheme, BladeProvider } from "@razorpay/blade/components";
 
 // Blade Design Tokens (Razorpay's design system)
 const BLADE = {
@@ -234,7 +236,11 @@ function ProductStore() {
   if (error) return <div style={{ padding: "20px", color: "red" }}><strong>ERROR:</strong> {error.message}</div>;
   if (!app) return <div style={{ padding: "20px" }}>Loading store...</div>;
 
-  return <ProductCatalog hostContext={hostContext} />;
+  return (
+    <BladeProvider themeTokens={bladeTheme} colorScheme="light">
+      <ProductCatalog hostContext={hostContext} />
+    </BladeProvider>
+  );
 }
 
 interface ProductCatalogProps {
@@ -1052,10 +1058,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                       gap: "4px",
                       marginBottom: "8px"
                     }}>
-                      <span style={{
-                        color: "#16A34A",
-                        fontSize: "14px"
-                      }}>★</span>
+                      <StarIcon size="small" color="feedback.positive.intense" fill="currentColor" />
                       <span style={{
                         fontSize: "13px",
                         fontWeight: "600",
@@ -1170,12 +1173,14 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                             background: "transparent",
                             border: "none",
                             cursor: "pointer",
-                            fontSize: "16px",
                             color: "#EF4444",
-                            padding: "0"
+                            padding: "0",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center"
                           }}
                         >
-                          🗑
+                          <TrashIcon size="small" color="feedback.negative.intense" />
                         </button>
                         
                         <span style={{
@@ -1371,11 +1376,10 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
-                fontSize: "16px",
                 color: "#6B7280"
               }}
             >
-              ∧
+              <ChevronUpIcon size="medium" color="surface.text.gray.muted" />
             </button>
           </div>
 
@@ -1515,13 +1519,14 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                       background: "transparent",
                       border: "none",
                       cursor: "pointer",
-                      fontSize: "18px",
                       color: "#9CA3AF",
                       padding: "0",
-                      lineHeight: 1
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"
                     }}
                   >
-                    ✕
+                    <CloseIcon size="medium" color="surface.text.gray.muted" />
                   </button>
                 </div>
               </div>
