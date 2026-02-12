@@ -92,7 +92,7 @@ interface CartItem {
 // Saved cards data
 const SAVED_CARDS = {
   "entity": "collection",
-  "count": 2,
+  "count": 1,
   "items": [
     {
       "id": "token_SF6A3zLrLs9LAU",
@@ -106,23 +106,6 @@ const SAVED_CARDS = {
         "network": "MasterCard",
         "type": "debit",
         "issuer": "UTIB",
-        "sub_type": "consumer",
-        "expiry_month": "01",
-        "expiry_year": "2099"
-      },
-      "status": "active"
-    },
-    {
-      "id": "token_SEQsF3U9ifAYka",
-      "entity": "token",
-      "token": "9GcAyR54qoVrzm",
-      "method": "card",
-      "card": {
-        "entity": "card",
-        "last4": "7022",
-        "network": "Visa",
-        "type": "credit",
-        "issuer": "YESB",
         "sub_type": "consumer",
         "expiry_month": "01",
         "expiry_year": "2099"
