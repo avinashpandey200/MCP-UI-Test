@@ -521,18 +521,21 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
           }}>
             {/* Success Icon */}
             <div style={{
-              width: "80px",
-              height: "80px",
-              background: "#16a34a",
-              borderRadius: "50%",
+              width: "120px",
+              height: "120px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              margin: "0 auto 24px",
-              fontSize: "40px",
-              color: "white"
+              margin: "0 auto 24px"
             }}>
-              ✓
+              <img 
+                src="https://mcp-ui-test-production.up.railway.app/public/images/paymentSuccess.svg"
+                alt="Payment Success"
+                style={{
+                  width: "100%",
+                  height: "100%"
+                }}
+              />
             </div>
 
             <h2 style={{
