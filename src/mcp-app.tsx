@@ -899,12 +899,12 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         <>
       {/* Main Container with Blue Border */}
       <div style={{
-        maxWidth: "680px",
+        maxWidth: "612px",
         margin: "16px auto",
         background: "#F9FAFB",
         borderRadius: "20px",
         border: "2px solid #93C5FD",
-        padding: "16px",
+        padding: "14px",
         boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)"
       }}>
         {/* Tira Branding and Trust Badge Section */}
@@ -925,7 +925,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
               src="https://mcp-ui-test-production.up.railway.app/public/images/tira_logo.png" 
               alt="Tira" 
               style={{
-                height: "32px",
+                height: "28px",
                 width: "auto"
               }}
             />
@@ -972,9 +972,9 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                   onClick={() => setSelectedProductId(product.id)}
                   style={{
                     background: "white",
-                    borderRadius: "16px",
-                    minWidth: "280px",
-                    maxWidth: "280px",
+                    borderRadius: "14px",
+                    minWidth: "252px",
+                    maxWidth: "252px",
                     flexShrink: 0,
                     scrollSnapAlign: "center",
                     border: isSelected ? "2px solid #9333EA" : "1px solid #E5E7EB",
@@ -987,19 +987,19 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                   {/* Product Image Area */}
                   <div style={{
                     background: "#FFFFFF",
-                    padding: "20px",
+                    padding: "18px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     position: "relative",
-                    minHeight: "200px"
+                    minHeight: "180px"
                   }}>
                     <img 
                       src={product.image} 
                       alt={product.title}
                       style={{
                         width: "100%",
-                        height: "180px",
+                        height: "162px",
                         objectFit: "contain"
                       }}
                     />
@@ -1007,7 +1007,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
 
                   {/* Product Details */}
                   <div style={{
-                    padding: "16px"
+                    padding: "14px"
                   }}>
                     {/* Rating */}
                     <div style={{
@@ -1034,11 +1034,11 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                     {/* Title */}
                     <h3 style={{
                       margin: "0 0 4px 0",
-                      fontSize: "15px",
+                      fontSize: "13px",
                       fontWeight: "600",
                       color: "#1F2937",
                       lineHeight: "1.4",
-                      height: "42px",
+                      height: "38px",
                       overflow: "hidden",
                       display: "-webkit-box",
                       WebkitLineClamp: 2,
@@ -1050,7 +1050,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                     {/* Subtitle */}
                     <p style={{
                       margin: "0 0 8px 0",
-                      fontSize: "12px",
+                      fontSize: "11px",
                       color: "#6B7280",
                       lineHeight: "1.4"
                     }}>
@@ -1076,21 +1076,21 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                     <div style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: "8px",
-                      marginBottom: "12px"
+                      gap: "6px",
+                      marginBottom: "10px"
                     }}>
                       <span style={{
-                        fontSize: "18px",
+                        fontSize: "16px",
                         fontWeight: "700",
                         color: "#1F2937"
                       }}>₹{product.price}</span>
                       <span style={{
-                        fontSize: "13px",
+                        fontSize: "12px",
                         color: "#9CA3AF",
                         textDecoration: "line-through"
                       }}>₹{product.comparePrice}</span>
                       <span style={{
-                        fontSize: "12px",
+                        fontSize: "11px",
                         color: "#16A34A",
                         fontWeight: "600"
                       }}>90%off</span>
@@ -1182,9 +1182,9 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                           background: "white",
                           color: "#4F46E5",
                           border: "1.5px solid #4F46E5",
-                          padding: "10px",
+                          padding: "9px",
                           borderRadius: "8px",
-                          fontSize: "14px",
+                          fontSize: "13px",
                           fontWeight: "600",
                           cursor: "pointer",
                           transition: "all 0.2s ease"
@@ -1213,7 +1213,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
           <div style={{
             background: "white",
             borderRadius: "12px",
-            padding: "16px",
+            padding: "14px",
             border: "1px solid #E5E7EB",
             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)"
           }}>
@@ -1233,8 +1233,8 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                   <div
                     key={item.id}
                     style={{
-                      width: "40px",
-                      height: "40px",
+                      width: "36px",
+                      height: "36px",
                       borderRadius: "8px",
                       border: "1px solid #E5E7EB",
                       overflow: "hidden"
@@ -1256,12 +1256,12 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
               {/* Price and Product Count */}
               <div style={{ flex: 1 }}>
                 <div style={{
-                  fontSize: "18px",
+                  fontSize: "16px",
                   fontWeight: "700",
                   color: "#1F2937"
                 }}>₹{getTotalPrice()}</div>
                 <div style={{
-                  fontSize: "12px",
+                  fontSize: "11px",
                   color: "#6B7280"
                 }}>{getTotalItems()} Products</div>
               </div>
@@ -1275,9 +1275,9 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                 background: "linear-gradient(135deg, #4F46E5 0%, #6366F1 100%)",
                 color: "white",
                 border: "none",
-                padding: "14px",
+                padding: "13px",
                 borderRadius: "10px",
-                fontSize: "15px",
+                fontSize: "14px",
                 fontWeight: "600",
                 cursor: "pointer",
                 boxShadow: "0 4px 12px rgba(79, 70, 229, 0.3)",
