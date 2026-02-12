@@ -166,6 +166,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
   const [showPayment, setShowPayment] = useState(false);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [notification, setNotification] = useState<{message: string; type: 'success' | 'error'} | null>(null);
 
   const calculateDiscount = (price: number, comparePrice: number) => {
     return Math.round(((comparePrice - price) / comparePrice) * 100);
@@ -214,6 +215,11 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
 
   const getTotalPrice = () => {
     return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  };
+
+  const showNotification = (message: string, type: 'success' | 'error') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 5000);
   };
 
   const handlePayment = async () => {
@@ -265,7 +271,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         window.location.href = redirectAction.url;
       } else {
         // Payment successful without redirect
-        alert(`Payment successful! Payment ID: ${data.razorpay_payment_id}`);
+        showNotification(`Payment successful! Payment ID: ${data.razorpay_payment_id}`, 'success');
         setCart([]);
         setShowPayment(false);
         setShowCheckout(false);
@@ -273,7 +279,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
       }
     } catch (error) {
       console.error('Payment error:', error);
-      alert(`Payment failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      showNotification(`Payment failed: ${error instanceof Error ? error.message : 'Unknown error'}`, 'error');
     } finally {
       setIsProcessingPayment(false);
     }
@@ -301,6 +307,17 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         /* Smooth scrolling */
         main {
           scroll-behavior: smooth;
+        }
+        /* Notification animation */
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
         }
       `}</style>
       <div
@@ -926,6 +943,29 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         )}
         <p style={{ margin: 0, color: "#a3a3a3", fontSize: "11px" }}>Tira Beauty Store Demo - Powered by Claude MCP</p>
       </footer>
+
+      {/* Notification Toast */}
+      {notification && (
+        <div style={{
+          position: "fixed",
+          top: "20px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          background: notification.type === 'success' ? "#16a34a" : "#dc2626",
+          color: "white",
+          padding: "12px 24px",
+          borderRadius: "8px",
+          fontSize: "14px",
+          fontWeight: "500",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
+          zIndex: 10000,
+          maxWidth: "90%",
+          textAlign: "center",
+          animation: "slideDown 0.3s ease"
+        }}>
+          {notification.message}
+        </div>
+      )}
       </div>
     </>
   );
