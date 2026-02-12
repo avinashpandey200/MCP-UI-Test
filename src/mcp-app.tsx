@@ -697,7 +697,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
               marginBottom: "24px",
               lineHeight: "1.5"
             }}>
-              We've opened the authentication page in a new tab. Please complete the OTP or 3D Secure verification there.
+              We've opened the authentication page in a new tab.
             </p>
 
             <p style={{ 
@@ -718,16 +718,27 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
             </p>
           </div>
         ) : (
-          // Payment Method Selection View
+          // Payment Method Selection View - Updated Design
         <div style={{
-          padding: "20px 16px",
-          maxWidth: "600px",
-          margin: "0 auto"
+          maxWidth: "612px",
+          margin: "16px auto",
+          background: "#F9FAFB",
+          borderRadius: "20px",
+          border: "2px solid #93C5FD",
+          padding: "20px 16px"
         }}>
+          {/* Your Saved Cards Section */}
           <div style={{ marginBottom: "20px" }}>
-            <h3 style={{ fontSize: "14px", fontWeight: "600", color: "BLADE.colors.text.primary", marginBottom: "12px" }}>
+            <h3 style={{ 
+              fontSize: "16px", 
+              fontWeight: "600", 
+              color: "#1F2937", 
+              marginBottom: "16px",
+              margin: 0
+            }}>
               Your Saved Cards
             </h3>
+            
             {SAVED_CARDS.items.map((cardData) => (
               <div
                 key={cardData.id}
@@ -735,37 +746,40 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: BLADE.spacing[5],
-                  padding: BLADE.spacing[5],
-                  background: selectedCard === cardData.id ? BLADE.colors.surface.background.level2 : BLADE.colors.surface.background.secondary,
-                  border: selectedCard === cardData.id ? `2px solid ${BLADE.colors.interactive.primary}` : `1px solid ${BLADE.colors.border.subtle}`,
-                  borderRadius: BLADE.borderRadius.medium,
-                  marginBottom: BLADE.spacing[4],
+                  gap: "12px",
+                  padding: "16px",
+                  background: "white",
+                  border: selectedCard === cardData.id ? "2px solid #4F46E5" : "1px solid #E5E7EB",
+                  borderRadius: "12px",
+                  marginTop: "12px",
                   cursor: "pointer",
-                  transition: "all 0.2s ease"
+                  transition: "all 0.2s ease",
+                  boxShadow: selectedCard === cardData.id ? "0 2px 8px rgba(79, 70, 229, 0.15)" : "0 1px 3px rgba(0, 0, 0, 0.05)"
                 }}
                 onMouseEnter={(e) => {
                   if (selectedCard !== cardData.id) {
-                    e.currentTarget.style.borderColor = BLADE.colors.border.muted;
+                    e.currentTarget.style.borderColor = "#D1D5DB";
+                    e.currentTarget.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.08)";
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (selectedCard !== cardData.id) {
-                    e.currentTarget.style.borderColor = BLADE.colors.border.subtle;
+                    e.currentTarget.style.borderColor = "#E5E7EB";
+                    e.currentTarget.style.boxShadow = "0 1px 3px rgba(0, 0, 0, 0.05)";
                   }
                 }}
               >
                 {/* Card Network Logo */}
                 <div style={{
-                  width: "60px",
-                  height: "40px",
-                  background: BLADE.colors.surface.background.primary,
-                  borderRadius: BLADE.borderRadius.small,
-                  border: `1px solid ${BLADE.colors.border.subtle}`,
+                  width: "50px",
+                  height: "35px",
+                  background: "white",
+                  borderRadius: "6px",
+                  border: "1px solid #E5E7EB",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "24px",
+                  fontSize: "20px",
                   flexShrink: 0
                 }}>
                   {cardData.card.network === "Visa" ? (
@@ -779,7 +793,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                       justifyContent: "center",
                       color: "white",
                       fontWeight: "700",
-                      fontSize: "16px",
+                      fontSize: "14px",
                       fontStyle: "italic"
                     }}>
                       VISA
@@ -790,18 +804,18 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                       gap: "2px"
                     }}>
                       <div style={{ 
-                        width: "20px", 
-                        height: "20px", 
+                        width: "16px", 
+                        height: "16px", 
                         borderRadius: "50%", 
                         background: "#EB001B",
                         opacity: 0.9
                       }}></div>
                       <div style={{ 
-                        width: "20px", 
-                        height: "20px", 
+                        width: "16px", 
+                        height: "16px", 
                         borderRadius: "50%", 
                         background: "#FF5F00",
-                        marginLeft: "-8px"
+                        marginLeft: "-6px"
                       }}></div>
                     </div>
                   )}
@@ -812,20 +826,20 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                   <div style={{
                     fontSize: "14px",
                     fontWeight: "600",
-                    color: "BLADE.colors.text.primary",
-                    marginBottom: "4px"
+                    color: "#1F2937",
+                    marginBottom: "2px"
                   }}>
                     {cardData.card.network} {cardData.card.type.charAt(0).toUpperCase() + cardData.card.type.slice(1)}
                   </div>
                   <div style={{
-                    fontSize: "12px",
-                    color: "#737373"
+                    fontSize: "13px",
+                    color: "#6B7280"
                   }}>
                     •••• {cardData.card.last4}
                   </div>
                   <div style={{
                     fontSize: "11px",
-                    color: "#a3a3a3",
+                    color: "#9CA3AF",
                     marginTop: "2px"
                   }}>
                     Expires {cardData.card.expiry_month}/{cardData.card.expiry_year}
@@ -837,8 +851,9 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                   width: "20px",
                   height: "20px",
                   borderRadius: "50%",
-                  border: selectedCard === cardData.id ? "6px solid BLADE.colors.text.primary" : "2px solid BLADE.colors.border.muted",
-                  flexShrink: 0
+                  border: selectedCard === cardData.id ? "6px solid #4F46E5" : "2px solid #D1D5DB",
+                  flexShrink: 0,
+                  transition: "all 0.2s ease"
                 }}></div>
               </div>
             ))}
@@ -847,18 +862,18 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
           {/* Payment Summary */}
           <div style={{
             padding: "16px",
-            background: "BLADE.colors.surface.background.secondary",
-            borderRadius: "8px",
-            border: "1px solid BLADE.colors.border.subtle",
-            marginBottom: "20px"
+            background: "white",
+            borderRadius: "12px",
+            border: "1px solid #E5E7EB",
+            marginBottom: "16px"
           }}>
             <div style={{
               display: "flex",
               justifyContent: "space-between",
-              marginBottom: "8px"
+              alignItems: "center"
             }}>
-              <span style={{ fontSize: "13px", color: "#737373" }}>Total Amount</span>
-              <span style={{ fontSize: "18px", fontWeight: "700", color: "BLADE.colors.text.primary" }}>₹{getTotalPrice()}</span>
+              <span style={{ fontSize: "14px", color: "#6B7280" }}>Total Amount</span>
+              <span style={{ fontSize: "18px", fontWeight: "700", color: "#1F2937" }}>₹{getTotalPrice()}</span>
             </div>
           </div>
 
@@ -867,25 +882,32 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
             disabled={!selectedCard || isProcessingPayment}
             style={{
               width: "100%",
-              background: (selectedCard && !isProcessingPayment) ? BLADE.colors.interactive.primary : BLADE.colors.border.subtle,
-              color: (selectedCard && !isProcessingPayment) ? BLADE.colors.text.onPrimary : BLADE.colors.text.muted,
+              background: (selectedCard && !isProcessingPayment) ? "linear-gradient(135deg, #4F46E5 0%, #6366F1 100%)" : "#E5E7EB",
+              color: (selectedCard && !isProcessingPayment) ? "white" : "#9CA3AF",
               border: "none",
               padding: "14px",
-              borderRadius: "8px",
+              borderRadius: "10px",
               fontSize: "15px",
               fontWeight: "600",
               cursor: (selectedCard && !isProcessingPayment) ? "pointer" : "not-allowed",
-              transition: "background 0.2s ease",
-              position: "relative"
+              transition: "all 0.2s ease",
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+              boxShadow: (selectedCard && !isProcessingPayment) ? "0 4px 12px rgba(79, 70, 229, 0.3)" : "none"
             }}
             onMouseEnter={(e) => {
               if (selectedCard && !isProcessingPayment) {
-                e.currentTarget.style.background = "BLADE.colors.interactive.primaryHover";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 6px 16px rgba(79, 70, 229, 0.4)";
               }
             }}
             onMouseLeave={(e) => {
               if (selectedCard && !isProcessingPayment) {
-                e.currentTarget.style.background = "BLADE.colors.text.primary";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 12px rgba(79, 70, 229, 0.3)";
               }
             }}
             onClick={handlePayment}
