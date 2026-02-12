@@ -927,7 +927,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
             ) : (
               <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
                 <img 
-                  src="https://mcp-ui-test-production.up.railway.app/public/images/razorpaylogo.png"
+                  src="https://mcp-ui-test-production.up.railway.app/public/images/razorapyLogo.svg"
                   alt="Razorpay"
                   style={{
                     height: "16px",
@@ -1608,7 +1608,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
             }}
           >
             <img 
-              src="https://mcp-ui-test-production.up.railway.app/public/images/razorpaylogo.png"
+              src="https://mcp-ui-test-production.up.railway.app/public/images/razorapyLogo.svg"
               alt="Razorpay"
               style={{
                 height: "16px",
