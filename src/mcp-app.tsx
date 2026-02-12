@@ -899,7 +899,6 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         <>
       {/* Main Container with Blue Border */}
       <div style={{
-        maxWidth: "612px",
         margin: "16px auto",
         background: "#F9FAFB",
         borderRadius: "20px",
