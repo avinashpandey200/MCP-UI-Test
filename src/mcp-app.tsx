@@ -210,10 +210,17 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
         padding: "20px 16px 16px",
         borderBottom: "1px solid #e5e5e5"
       }}>
-        <h1 style={{ margin: 0, fontSize: "20px", fontWeight: "600" }}>Tira Beauty Store</h1>
-        <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#666" }}>Scroll to browse products →</p>
+        <h1 style={{ margin: 0, fontSize: "20px", fontWeight: "600" }}>
+          {showCheckout ? "Checkout" : "Tira Beauty Store"}
+        </h1>
+        <p style={{ margin: "4px 0 0 0", fontSize: "13px", color: "#666" }}>
+          {showCheckout ? `Review your ${getTotalItems()} items` : "Scroll to browse products →"}
+        </p>
       </header>
 
+      {!showCheckout ? (
+        // Products View
+        <>
       {/* Products Horizontal Scroll */}
       <main style={{
         position: "relative",
@@ -395,210 +402,172 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
           ))}
         </div>
       </main>
-
-      {/* Checkout Summary Modal */}
-      {showCheckout && cart.length > 0 && (
+        </>
+      ) : (
+        // Checkout View
         <div style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: "rgba(0, 0, 0, 0.5)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 1000,
-          padding: "16px"
-        }}
-        onClick={() => setShowCheckout(false)}
-        >
-          <div style={{
-            background: "white",
-            borderRadius: "12px",
-            maxWidth: "500px",
-            width: "100%",
-            maxHeight: "80vh",
-            overflowY: "auto",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.3)"
-          }}
-          onClick={(e) => e.stopPropagation()}
-          >
-            {/* Checkout Header */}
-            <div style={{
-              padding: "20px",
-              borderBottom: "1px solid #e5e5e5",
-              position: "sticky",
-              top: 0,
-              background: "white",
-              zIndex: 1
+          padding: "20px 16px",
+          maxWidth: "600px",
+          margin: "0 auto"
+        }}>
+          {cart.map((item) => (
+            <div key={item.id} style={{
+              display: "flex",
+              gap: "12px",
+              padding: "16px",
+              background: "#fafafa",
+              borderRadius: "8px",
+              marginBottom: "12px",
+              border: "1px solid #e5e5e5"
             }}>
-              <h2 style={{ margin: 0, fontSize: "18px", fontWeight: "600", color: "#262626" }}>
-                Checkout Summary
-              </h2>
-            </div>
-
-            {/* Cart Items */}
-            <div style={{ padding: "16px" }}>
-              {cart.map((item) => (
-                <div key={item.id} style={{
-                  display: "flex",
-                  gap: "12px",
-                  padding: "12px",
-                  background: "#fafafa",
-                  borderRadius: "8px",
-                  marginBottom: "12px"
+              <img
+                src={item.image}
+                alt={item.title}
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  objectFit: "cover",
+                  borderRadius: "6px",
+                  flexShrink: 0
+                }}
+              />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{
+                  fontSize: "10px",
+                  color: "#737373",
+                  textTransform: "uppercase",
+                  marginBottom: "4px"
                 }}>
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    style={{
-                      width: "60px",
-                      height: "60px",
-                      objectFit: "cover",
-                      borderRadius: "6px"
-                    }}
-                  />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{
-                      fontSize: "10px",
-                      color: "#737373",
-                      textTransform: "uppercase",
-                      marginBottom: "2px"
-                    }}>
-                      {item.vendor}
-                    </div>
-                    <div style={{
-                      fontSize: "13px",
-                      fontWeight: "500",
-                      color: "#262626",
-                      marginBottom: "8px",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap"
-                    }}>
-                      {item.title}
-                    </div>
-                    <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px"
-                    }}>
-                      <div style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        background: "white",
-                        border: "1px solid #e5e5e5",
-                        borderRadius: "6px",
-                        padding: "4px"
-                      }}>
-                        <button
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          style={{
-                            background: "transparent",
-                            border: "none",
-                            cursor: "pointer",
-                            fontSize: "16px",
-                            color: "#525252",
-                            padding: "0 4px",
-                            lineHeight: 1
-                          }}
-                        >
-                          −
-                        </button>
-                        <span style={{ fontSize: "13px", fontWeight: "500", minWidth: "20px", textAlign: "center" }}>
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          style={{
-                            background: "transparent",
-                            border: "none",
-                            cursor: "pointer",
-                            fontSize: "16px",
-                            color: "#525252",
-                            padding: "0 4px",
-                            lineHeight: 1
-                          }}
-                        >
-                          +
-                        </button>
-                      </div>
-                      <div style={{ fontSize: "14px", fontWeight: "600", color: "#262626" }}>
-                        ₹{item.price * item.quantity}
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      cursor: "pointer",
-                      fontSize: "18px",
-                      color: "#a3a3a3",
-                      padding: "0",
-                      alignSelf: "flex-start"
-                    }}
-                  >
-                    ×
-                  </button>
+                  {item.vendor}
                 </div>
-              ))}
-            </div>
-
-            {/* Total Section */}
-            <div style={{
-              padding: "20px",
-              borderTop: "1px solid #e5e5e5",
-              position: "sticky",
-              bottom: 0,
-              background: "white"
-            }}>
-              <div style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "16px"
-              }}>
-                <div>
-                  <div style={{ fontSize: "12px", color: "#737373", marginBottom: "4px" }}>
-                    Total ({getTotalItems()} items)
+                <div style={{
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  color: "#262626",
+                  marginBottom: "12px",
+                  lineHeight: "1.3"
+                }}>
+                  {item.title}
+                </div>
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    background: "white",
+                    border: "1px solid #e5e5e5",
+                    borderRadius: "6px",
+                    padding: "6px 8px"
+                  }}>
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                        fontSize: "18px",
+                        color: "#525252",
+                        padding: "0 4px",
+                        lineHeight: 1
+                      }}
+                    >
+                      −
+                    </button>
+                    <span style={{ fontSize: "14px", fontWeight: "500", minWidth: "24px", textAlign: "center" }}>
+                      {item.quantity}
+                    </span>
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                        fontSize: "18px",
+                        color: "#525252",
+                        padding: "0 4px",
+                        lineHeight: 1
+                      }}
+                    >
+                      +
+                    </button>
                   </div>
-                  <div style={{ fontSize: "24px", fontWeight: "700", color: "#262626" }}>
-                    ₹{getTotalPrice()}
+                  <div style={{ fontSize: "16px", fontWeight: "600", color: "#262626" }}>
+                    ₹{item.price * item.quantity}
                   </div>
                 </div>
               </div>
               <button
+                onClick={() => removeFromCart(item.id)}
                 style={{
-                  width: "100%",
-                  background: "#16a34a",
-                  color: "white",
+                  background: "transparent",
                   border: "none",
-                  padding: "14px",
-                  borderRadius: "8px",
-                  fontSize: "15px",
-                  fontWeight: "600",
                   cursor: "pointer",
-                  transition: "background 0.2s ease"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#15803d";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#16a34a";
-                }}
-                onClick={() => {
-                  alert(`Order placed for ₹${getTotalPrice()}! Thank you for shopping.`);
-                  setCart([]);
-                  setShowCheckout(false);
+                  fontSize: "20px",
+                  color: "#a3a3a3",
+                  padding: "0",
+                  alignSelf: "flex-start",
+                  lineHeight: 1
                 }}
               >
-                Place Order
+                ×
               </button>
             </div>
+          ))}
+
+          {/* Total Section */}
+          <div style={{
+            padding: "20px",
+            background: "#fafafa",
+            borderRadius: "8px",
+            border: "1px solid #e5e5e5",
+            marginTop: "20px"
+          }}>
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "16px",
+              paddingBottom: "16px",
+              borderBottom: "1px solid #e5e5e5"
+            }}>
+              <div style={{ fontSize: "14px", color: "#737373" }}>
+                Subtotal ({getTotalItems()} items)
+              </div>
+              <div style={{ fontSize: "18px", fontWeight: "600", color: "#262626" }}>
+                ₹{getTotalPrice()}
+              </div>
+            </div>
+            <button
+              style={{
+                width: "100%",
+                background: "#262626",
+                color: "white",
+                border: "none",
+                padding: "14px",
+                borderRadius: "8px",
+                fontSize: "15px",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "background 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#171717";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#262626";
+              }}
+              onClick={() => {
+                alert(`Order placed for ₹${getTotalPrice()}! Thank you for shopping.`);
+                setCart([]);
+                setShowCheckout(false);
+              }}
+            >
+              Place Order - ₹{getTotalPrice()}
+            </button>
           </div>
         </div>
       )}
@@ -639,7 +608,7 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
               }}
               onClick={() => setShowCheckout(!showCheckout)}
             >
-              {showCheckout ? "Close Checkout" : `View Cart (${getTotalItems()} items)`}
+              {showCheckout ? "← Back to Products" : `View Cart (${getTotalItems()} items)`}
             </button>
           </div>
         )}
