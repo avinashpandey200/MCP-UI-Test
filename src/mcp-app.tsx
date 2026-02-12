@@ -114,16 +114,33 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "transparent",
-        paddingTop: hostContext?.safeAreaInsets?.top,
-        paddingRight: hostContext?.safeAreaInsets?.right,
-        paddingBottom: hostContext?.safeAreaInsets?.bottom,
-        paddingLeft: hostContext?.safeAreaInsets?.left,
-      }}
-    >
+    <>
+      <style>{`
+        /* Custom scrollbar styling */
+        main::-webkit-scrollbar {
+          height: 6px;
+        }
+        main::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        main::-webkit-scrollbar-thumb {
+          background: #d4d4d4;
+          border-radius: 3px;
+        }
+        main::-webkit-scrollbar-thumb:hover {
+          background: #a3a3a3;
+        }
+      `}</style>
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "transparent",
+          paddingTop: hostContext?.safeAreaInsets?.top,
+          paddingRight: hostContext?.safeAreaInsets?.right,
+          paddingBottom: hostContext?.safeAreaInsets?.bottom,
+          paddingLeft: hostContext?.safeAreaInsets?.left,
+        }}
+      >
       {/* Header */}
       <header style={{
         background: "transparent",
@@ -137,14 +154,13 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
 
       {/* Products Grid */}
       <main style={{
-        maxWidth: "900px",
-        margin: "0 auto",
-        padding: "20px 16px"
+        padding: "20px 16px",
+        overflowX: "auto"
       }}>
         <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-          gap: "16px"
+          display: "flex",
+          gap: "16px",
+          paddingBottom: "8px"
         }}>
           {PRODUCTS.map((product) => (
             <div
@@ -155,7 +171,10 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
                 overflow: "hidden",
                 border: "1px solid #e5e5e5",
                 transition: "border-color 0.2s ease",
-                cursor: "pointer"
+                cursor: "pointer",
+                minWidth: "180px",
+                maxWidth: "180px",
+                flexShrink: 0
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = "#d4d4d4";
@@ -307,7 +326,8 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
       }}>
         <p style={{ margin: 0 }}>Tira Beauty Store Demo - Powered by Claude MCP</p>
       </footer>
-    </div>
+      </div>
+    </>
   );
 }
 
