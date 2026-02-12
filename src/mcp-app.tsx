@@ -612,52 +612,91 @@ function ProductCatalog({ hostContext }: ProductCatalogProps) {
               Please complete the authentication using the link below. We'll automatically detect when your payment is successful.
             </p>
 
-            {/* Payment ID */}
+            {/* Authentication URL Display */}
             <div style={{
               background: "#fafafa",
               border: "1px solid #e5e5e5",
               borderRadius: "8px",
-              padding: "12px",
-              marginBottom: "24px",
-              fontSize: "12px",
-              color: "#737373",
-              fontFamily: "monospace"
+              padding: "16px",
+              marginBottom: "24px"
             }}>
-              Payment ID: {pollingPaymentId}
+              <div style={{
+                fontSize: "12px",
+                color: "#737373",
+                marginBottom: "8px",
+                fontWeight: "500"
+              }}>
+                Authentication URL:
+              </div>
+              <div style={{
+                background: "white",
+                border: "1px solid #e5e5e5",
+                borderRadius: "6px",
+                padding: "12px",
+                fontSize: "11px",
+                fontFamily: "monospace",
+                color: "#262626",
+                wordBreak: "break-all",
+                lineHeight: "1.5",
+                userSelect: "all"
+              }}>
+                {authUrl}
+              </div>
+              <div style={{
+                fontSize: "11px",
+                color: "#737373",
+                marginTop: "8px",
+                fontStyle: "italic"
+              }}>
+                Click to select all, then copy and paste into a new browser tab
+              </div>
             </div>
 
-            {/* Authentication Link Button */}
-            <a
-              href={authUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "inline-block",
-                background: "#262626",
-                color: "white",
-                padding: "14px 32px",
-                borderRadius: "8px",
-                fontSize: "15px",
+            {/* Copy Instructions */}
+            <div style={{
+              background: "#fff7ed",
+              border: "1px solid #fed7aa",
+              borderRadius: "8px",
+              padding: "16px",
+              marginBottom: "24px"
+            }}>
+              <div style={{
+                fontSize: "14px",
                 fontWeight: "600",
-                textDecoration: "none",
-                transition: "background 0.2s ease"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#171717";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#262626";
-              }}
-            >
-              Complete Authentication →
-            </a>
+                color: "#9a3412",
+                marginBottom: "8px"
+              }}>
+                How to complete authentication:
+              </div>
+              <ol style={{
+                margin: 0,
+                paddingLeft: "20px",
+                fontSize: "13px",
+                color: "#9a3412",
+                lineHeight: "1.8"
+              }}>
+                <li>Click on the URL above to select it</li>
+                <li>Copy it (Ctrl+C or Cmd+C)</li>
+                <li>Open a new browser tab</li>
+                <li>Paste the URL and press Enter</li>
+                <li>Complete the OTP/3D Secure verification</li>
+              </ol>
+            </div>
 
             <p style={{ 
               fontSize: "12px", 
               color: "#a3a3a3", 
-              marginTop: "24px"
+              marginTop: "16px"
             }}>
-              The page will update automatically once payment is confirmed
+              Payment ID: <span style={{ fontFamily: "monospace", color: "#737373" }}>{pollingPaymentId}</span>
+            </p>
+
+            <p style={{ 
+              fontSize: "12px", 
+              color: "#a3a3a3", 
+              marginTop: "8px"
+            }}>
+              This page will update automatically once payment is confirmed
             </p>
           </div>
         ) : (
